@@ -20,11 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="res\day1.txt">
+    <Text Include="res\2023\day1-input.txt">
       <Filter>Resources</Filter>
     </Text>
-    <Text Include="res\day2.txt">
+    <Text Include="res\2023\day2-input.txt">
       <Filter>Resources</Filter>
     </Text>
+    <Text Include="res\2024\day1-input.txt" />
+    <Text Include="res\2024\day1-test.txt" />
   </ItemGroup>
 </Project>
