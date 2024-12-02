@@ -133,6 +133,8 @@
   <ItemGroup>
     <Text Include="res\2023\day2-input.txt" />
     <Text Include="res\2023\day1-input.txt" />
+    <Text Include="res\2023\day3-input.txt" />
+    <Text Include="res\2023\day3-test.txt" />
     <Text Include="res\2024\day1-input.txt" />
     <Text Include="res\2024\day1-test.txt" />
   </ItemGroup>

@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <xmmintrin.h>
 
 #pragma warning(disable : 4996) // _CTR_SECURE_NO_WARNINGS
 
@@ -27,9 +29,6 @@
 
 // --------------------------------------------------------
 // Constants
-
-const char* DAY1_INPUT = "res/2024/day1-input.txt";
-const char* DAY1_TEST = "res/2024/day1-test.txt";
 
 const char* NumberStringTable[NUMBER_STRING_COUNT]{
     "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
@@ -162,6 +161,20 @@ struct HashTable {
 // --------------------------------------------------------
 // First Aid Functions
 
+INLINE void _timeit(void(*f)(), const char* fname) {
+    thread_local clock_t startTime = clock();
+
+    f();
+
+    thread_local clock_t endTime = clock();
+
+    thread_local double cpuTime = ((double)(endTime - startTime)) / CLOCKS_PER_SEC;
+
+    LOG("Func %s :: CPU time %lf seconds", fname, cpuTime);
+}
+
+#define TIME_IT(f) _timeit(f, #f)
+
 INLINE bool IsDigit(char ch) {
     return ch <= '9' && ch >= '0';
 }
@@ -217,14 +230,14 @@ INLINE void Sort(int arr[], int size, bool reverse = false) {
 
 
 // --------------------------------------------------------
-// Poetry 
+// Poetry 2023 
 
-INTERNAL void Day1TwoDigitsSum(const char* filename) {
+INTERNAL void Day1Part1_2023(const char* filename) {
     int sum = 0;
 
     FILE* file = fopen(filename, "r");
     if (!file) {
-        printf("DAY1 :: Part 1 :: Could not open file from path = '%s'", filename);
+        printf("Day1 :: Part 1 :: Could not open file from path = '%s'", filename);
         return;
     }
 
@@ -256,15 +269,15 @@ INTERNAL void Day1TwoDigitsSum(const char* filename) {
     }
 
     fclose(file);
-    printf("DAY1 :: Part 1:: Expected=55477, Actual=%d\n", sum);
+    printf("Day1 :: Part 1:: Result=%d\n", sum);
 }
 
-INTERNAL void Day1TwoSpelledOutNumbersSum(const char* filename) {
+INTERNAL void Day1Part2_2023(const char* filename) {
     int sum = 0;
 
     FILE* file = fopen(filename, "r");
     if (!file) {
-        printf("DAY1 :: Part 2 :: Could not open file from path = '%s'", filename);
+        printf("Day1 :: Part 2 :: Could not open file from path = '%s'", filename);
         return;
     }
 
@@ -348,15 +361,15 @@ INTERNAL void Day1TwoSpelledOutNumbersSum(const char* filename) {
     }
 
     fclose(file);
-    printf("DAY1 :: Part 2 :: Expected=54431, Actual=%d\n", sum);
+    printf("Day1 :: Part 2 :: Result=%d\n", sum);
 }
 
-INTERNAL void Day2SumOfValidGames(const char* filename) {
+INTERNAL void Day2Part1_2023(const char* filename) {
     int sum = 0;
 
     FILE* file = fopen(filename, "r");
     if (!file) {
-        printf("DAY2 :: Part 1 :: Could not open file from path = '%s'", filename);
+        printf("Day2 :: Part 1 :: Could not open file from path = '%s'", filename);
         return;
     }
 
@@ -380,9 +393,9 @@ INTERNAL void Day2SumOfValidGames(const char* filename) {
             if (tok) {
                 r = tok + strlen(tok) - 1;
 
-                if (strstr(tok, "red")   != nullptr && gameCube[COLOR_RED]   < n ||
+                if (strstr(tok, "red") != nullptr && gameCube[COLOR_RED] < n ||
                     strstr(tok, "green") != nullptr && gameCube[COLOR_GREEN] < n ||
-                    strstr(tok, "blue")  != nullptr && gameCube[COLOR_BLUE]  < n) {
+                    strstr(tok, "blue") != nullptr && gameCube[COLOR_BLUE] < n) {
                     valid = false;
                 }
 
@@ -401,34 +414,236 @@ INTERNAL void Day2SumOfValidGames(const char* filename) {
     }
 
     fclose(file);
-    printf("DAY2 :: Part 1 :: Expected=2879, Actual=%d\n", sum);
+    printf("Day2 :: Part 1 :: Result=%d\n", sum);
 }
 
-// --------------------------------------------------------
+INTERNAL void Day2Part2_2023(const char* filename) {
 
-INTERNAL void Day2SumOfMinimumCubesForValidGames(const char* filename) {
-    int sum = 0;
     FILE* file = fopen(filename, "r");
     if (!file) {
         printf("DAY2 :: Part 2 :: Could not open file from path = '%s'", filename);
         return;
     }
 
+    int sum = 0;
+
     char buf[MAX_STRING_LENGTH];
     for (; fgets(buf, MAX_STRING_LENGTH, file) != nullptr;) {
+        int minMax[COLOR_COUNT] = { 0 };
         char* tok = strtok(buf, " :,;");
         tok = strtok(nullptr, " :,;");
+        int id = atoi(tok);
 
+        for (; (tok = strtok(nullptr, " ,;")) != nullptr;) {
+            int n = atoi(tok);
+            tok = strtok(nullptr, " ,");
 
+            char* r = nullptr;
+            if (tok) {
+                r = tok + strlen(tok) - 1;
+
+                if (strstr(tok, "red") != nullptr) {
+                    if (n > minMax[COLOR_RED]) {
+                        minMax[COLOR_RED] = n;
+                    }
+                }
+
+                if (strstr(tok, "green") != nullptr) {
+                    if (n > minMax[COLOR_GREEN]) {
+                        minMax[COLOR_GREEN] = n;
+                    }
+                }
+
+                if (strstr(tok, "blue") != nullptr) {
+                    if (n > minMax[COLOR_BLUE]) {
+                        minMax[COLOR_BLUE] = n;
+                    }
+                }
+
+                if (r && (*r == ';' || *r == '\n')) {
+                    // We don't care if a set or game ends
+                }
+            }
+        }
+
+        printf("MinSet[r=%d, g=%d, b=%d] \n", minMax[COLOR_RED], minMax[COLOR_GREEN], minMax[COLOR_BLUE]);
+        int power = 1;
+        for (int i = 0; i < COLOR_COUNT; i++) {
+            if (minMax[i] == 0) {
+                minMax[i] = 1;
+            }
+            power *= minMax[i];
+        }
+
+        printf("Power=%d \n", power);
+        sum += power;
     }
 
     fclose(file);
-    printf("DAY2 :: Part 2 :: Expected= , Actual=%d\n", sum);
+    printf("DAY2 :: Part 2 :: Result =%d\n", sum);
 }
 
+#define MAX_SYMBOLS_LENGTH 14
+const char SymbolsTable[MAX_SYMBOLS_LENGTH] = "!@#$%^&*-+_=/";
+
+INLINE bool IsSymbol(char ch) {
+    for (int i = 0; i < MAX_SYMBOLS_LENGTH; i++) {
+        if (ch == SymbolsTable[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+INLINE bool TokenContainsSymbol(const char* str) {
+    if (str == nullptr) {
+        return false;
+    }
+
+    for (int i = 0; i < strlen(str); i++) {
+        if (IsSymbol(str[i])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+INLINE int GetNeighborNumber(size_t l, size_t r, const char* line) {
+    int number = 0;
+
+    while (l > 0 && IsDigit(line[l - 1])) {
+        --l;
+    }
+
+    while (r < MAX_STRING_LENGTH && IsDigit(line[r])) {
+        ++r;
+    }
+
+    if (l < r) {
+        char buf[MAX_STRING_LENGTH] = { 0 };
+        strncpy(buf, line + l, r - l);
+        number = atoi(buf);
+    }
+
+    return number;
+}
+
+inline int ExtractNumber(const char* line, size_t pos) {
+    if (!IsDigit(line[pos]) && !IsDigit(line[pos - 1]) && !IsDigit(line[pos + 1])) {
+        return 0;
+    }
+
+    if (IsDigit(line[pos]) && (!IsDigit(line[pos - 1]) && !IsDigit(line[pos + 1]))) {
+        return line[pos] - '0';
+    }
+
+    size_t l;
+    size_t r;
+    int number;
+    bool addTwo = false;
+
+    if (IsDigit(line[pos])) {
+        l = r = pos;
+    }
+    else if (IsDigit(line[pos + 1]) && (!IsDigit(line[pos - 1]))) {
+        l = r = pos + 1;
+    }
+    else if (IsDigit(line[pos - 1])) {
+        l = r = pos - 1;
+        if (IsDigit(line[pos + 1])) {
+            addTwo = true;
+        }
+    }
+
+    number = GetNeighborNumber(l, r, line);
+
+    if (addTwo) {
+        l = r = pos + 1;
+        number += GetNeighborNumber(l, r, line);
+    }
+
+    return number;
+}
+
+INTERNAL void Day3Part1_2023() {
+    const char* filename = "res/2023/day3-input.txt";
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        printf("DAY 3 :: PART 1 :: Could not open file from path: %s", filename);
+        return;
+    }
+
+    int sum = 0;
+    char prevLine[MAX_STRING_LENGTH] = { 0 };
+    char currLine[MAX_STRING_LENGTH] = { 0 };
+    char nextLine[MAX_STRING_LENGTH] = { 0 };
+    for (; fgets(nextLine, MAX_STRING_LENGTH, file) != nullptr;) {
+        char copy[MAX_STRING_LENGTH] = { 0 };
+        strncpy(copy, currLine, MAX_STRING_LENGTH);
+
+        for (char* tok = strtok(copy, "."); tok != nullptr && *tok != '\n'; tok = strtok(nullptr, ".")) {
+            if (TokenContainsSymbol(tok)) {
+                size_t tokPos = tok - copy;
+                while (!IsSymbol(copy[tokPos])) {
+                    ++tokPos;
+                }
+
+                int prevLineNumber = ExtractNumber(prevLine, tokPos);
+                int currLineNumber = ExtractNumber(currLine, tokPos);
+                int nextLineNumber = ExtractNumber(nextLine, tokPos);
+                sum += prevLineNumber + currLineNumber + nextLineNumber;
+            }
+        }
+        strncpy(prevLine, currLine, MAX_STRING_LENGTH);
+        strncpy(currLine, nextLine, MAX_STRING_LENGTH);
+    }
+    fclose(file);
+
+    printf("DAY 3 :: Part 1 :: Expected=498559, Actual=%d \n", sum);
+}
+
+INLINE int TestDay3Part2_2023() {
+    const char* filename = "res/2023/day3-test.txt";
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        LOG("Could not open file from path: %s", filename);
+        return 0;
+    }
+
+    int sum = 0;
+    char prevLine[MAX_STRING_LENGTH] = { 0 };
+    char currLine[MAX_STRING_LENGTH] = { 0 };
+    char nextLine[MAX_STRING_LENGTH] = { 0 };
+
+    for (; fgets(nextLine, MAX_STRING_LENGTH, file) != nullptr;) {
+        nextLine[strcspn(nextLine, "\n")] = 0;
+        char copy[MAX_STRING_LENGTH];
+        strncpy(copy, currLine, MAX_STRING_LENGTH);
+
+        LOG("prevLine: %s", prevLine);
+        LOG("currLine: %s", currLine);
+        LOG("nextLine: %s", nextLine);
+        LOG("-----------------------------");
+
+        strncpy(prevLine, currLine, MAX_STRING_LENGTH);
+        strncpy(currLine, nextLine, MAX_STRING_LENGTH);
+
+    }
+    fclose(file);
+
+    return sum;
+}
+
+INTERNAL void Day3Part2_2023() {
+
+}
 
 // --------------------------------------------------------
-// AOC Functions
+// Poetry 2024
+
+INTERNAL const char* DAY1_INPUT = "res/2024/day1-input.txt";
+INTERNAL const char* DAY1_TEST = "res/2024/day1-test.txt";
 
 GLOBAL int IdsSize = 0;
 GLOBAL int LeftIds[MAX_ARRAY_LENGTH] = { 0 };
@@ -504,7 +719,7 @@ INLINE int TestDay1Part2() {
     return actual;
 }
 
-INLINE void Day1Part1() {
+INTERNAL void Day1Part1() {
     ASSERT(TestDay1Part1() == 11);
 
     GetLocationIdsFromFile(DAY1_INPUT);
@@ -513,7 +728,7 @@ INLINE void Day1Part1() {
     LOG("DAY1 PART 1 RESULT: %d", actual);
 }
 
-INLINE void Day1Part2() {
+INTERNAL void Day1Part2() {
     ASSERT(TestDay1Part2() == 31);
 
     GetLocationIdsFromFile(DAY1_INPUT);
@@ -523,6 +738,5 @@ INLINE void Day1Part2() {
 }
 
 int main() {
-    Day1Part1();
-    Day1Part2();
+
 }
