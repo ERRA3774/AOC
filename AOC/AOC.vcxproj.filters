@@ -41,6 +41,9 @@
     <ClInclude Include="days\2023\day3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="days\2024\day3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\2023\day1-input.txt" />
@@ -51,5 +54,7 @@
     <Text Include="res\2024\day1-test.txt" />
     <Text Include="res\2024\day2-input.txt" />
     <Text Include="res\2024\day2-test.txt" />
+    <Text Include="res\2024\day3-input.txt" />
+    <Text Include="res\2024\day3-test.txt" />
   </ItemGroup>
 </Project>

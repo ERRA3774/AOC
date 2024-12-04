@@ -5,7 +5,13 @@
 #include <string.h>
 #include <time.h>
 #include <xmmintrin.h>
+
 #include <vector>
+#include <string>
+#include <regex>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 #pragma warning(disable : 4996) // _CTR_SECURE_NO_WARNINGS
 #pragma warning(disable : 6053) // Prior call to strncpy might not zero-terminate string

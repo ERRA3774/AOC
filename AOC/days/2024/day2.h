@@ -1,6 +1,6 @@
 // --------------------------------------------------------
 // Author: ERRA3774
-// 
+// Status: In Progress
 // License: DWETFUW License
 // --------------------------------------------------------
 
@@ -101,7 +101,7 @@ INLINE int SafeReportsFromFile(const char* filename, int tolerance = 0) {
 
     FILE* file = fopen(filename, "r");
     if (!file) {
-        LOG("Could not open file from path: %s", filename);
+        LOG("Could not open file from path: '%s'", filename);
         return -1;
     }
 
@@ -128,7 +128,7 @@ INLINE int TestDay2Part1_2024() {
     return result;
 }
 
-INLINE void Day2Part1_2024() {
+INTERNAL void Day2Part1_2024() {
     ASSERT(TestDay2Part1_2024() == 2);
 
     int result = SafeReportsFromFile(DAY2_INPUT);
@@ -142,7 +142,7 @@ INLINE int TestDay2Part2_2024() {
     return result;
 }
 
-INLINE void Day2Part2_2024() {
+INTERNAL void Day2Part2_2024() {
     ASSERT(TestDay2Part2_2024());
 
     int result = SafeReportsFromFile(DAY2_INPUT, 1);

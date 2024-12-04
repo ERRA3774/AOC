@@ -1,12 +1,12 @@
 // --------------------------------------------------------
 // Author: ERRA3774
-// 
+// Status: Done
 // License: DWETFUW License
 // --------------------------------------------------------
 
 #pragma once
 
-#include "../../lglib.h"
+#include "lglib.h"
 
 INTERNAL const char* DAY1_INPUT = "res/2024/day1-input.txt";
 INTERNAL const char* DAY1_TEST = "res/2024/day1-test.txt";

@@ -1,6 +1,6 @@
 // --------------------------------------------------------
 // Author: ERRA3774
-// 
+// Status: In Progress
 // License: DWETFUW License
 // --------------------------------------------------------
 
@@ -54,7 +54,7 @@ INLINE int GetNeighborNumber(size_t l, size_t r, const char* line) {
     return number;
 }
 
-inline int ExtractNumber(const char* line, size_t pos) {
+INLINE int ExtractNumber(const char* line, size_t pos) {
     if (!IsDigit(line[pos]) && !IsDigit(line[pos - 1]) && !IsDigit(line[pos + 1])) {
         return 0;
     }
@@ -128,7 +128,7 @@ INTERNAL void Day3Part1_2023() {
     LOG("DAY 3 PART 1 RESULT = %d", sum);
 }
 
-INLINE int TestDay3Part2_2023() {
+INTERNAL int TestDay3Part2_2023() {
     const char* filename = "res/2023/day3-test.txt";
     FILE* file = fopen(filename, "r");
     if (!file) {
