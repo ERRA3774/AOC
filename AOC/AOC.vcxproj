@@ -148,6 +148,8 @@
     <ClInclude Include="days\2024\day1.h" />
     <ClInclude Include="days\2024\day2.h" />
     <ClInclude Include="days\2024\day3.h" />
+    <ClInclude Include="days\2024\day4.h" />
+    <ClInclude Include="days\2024\day5.h" />
     <ClInclude Include="lglib.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -162,6 +164,10 @@
     <Text Include="res\2024\day2-test.txt" />
     <Text Include="res\2024\day3-input.txt" />
     <Text Include="res\2024\day3-test.txt" />
+    <Text Include="res\2024\day4-input.txt" />
+    <Text Include="res\2024\day4-test.txt" />
+    <Text Include="res\2024\day5-input.txt" />
+    <Text Include="res\2024\day5-test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

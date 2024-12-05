@@ -14,6 +14,8 @@
 #include "days/2024/day2.h"
 #include "days/2024/day1.h"
 #include "days/2024/day3.h"
+#include "days/2024/day4.h"
+#include "days/2024/day5.h"
 
 int main() {
 
@@ -38,4 +40,12 @@ int main() {
 
     Day3Part1_2024();
     Day3Part2_2024();
+
+    Day4Part1_2024();
+    Day4Part2_2024();
+
+    Day5Part1_2024();
+    Day5Part2_2024();
+
+
 }

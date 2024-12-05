@@ -111,8 +111,7 @@ INLINE int SafeReportsFromFile(const char* filename, int tolerance = 0) {
 
         buf[strcspn(buf, "\n")] = 0;
 
-        if (tolerance == 0 && IsSafeReport(buf) ||
-            (tolerance > 0 && IsSafeEnoughReport(buf))) {
+        if (tolerance == 0 && IsSafeReport(buf) || (tolerance > 0 && IsSafeEnoughReport(buf))) {
             ++sum;
         }
     }
