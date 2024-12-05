@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <tuple>
 
 #pragma warning(disable : 4996) // _CTR_SECURE_NO_WARNINGS
 #pragma warning(disable : 6053) // Prior call to strncpy might not zero-terminate string
@@ -20,9 +21,10 @@
 #define INLINE inline
 #define INTERNAL static
 #define GLOBAL static
+#define TIMEABLE void
 
 #define MAX_STRING_LENGTH 256
-#define MAX_ARRAY_LENGTH 1024
+#define MAX_ARRAY_LENGTH 2048
 #define NUMBER_STRING_COUNT 10
 #define ARRAY_SIZE 256
 

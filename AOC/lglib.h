@@ -73,7 +73,7 @@ struct HashTable {
     int buckets;
     int size;
 
-    HashTable(int initBucketsSize = INIT_BUCKETS_SIZE) : buckets(initBucketsSize), size(0) {
+    INLINE HashTable(int initBucketsSize = INIT_BUCKETS_SIZE) : buckets(initBucketsSize), size(0) {
         table = new Entry * [buckets];
         memset(table, 0, sizeof(Entry*) * buckets);
     }
@@ -83,7 +83,7 @@ struct HashTable {
         delete[] table;
     }
 
-    void Insert(const int& key, int value) {
+    INLINE void Insert(const int& key, int value) {
         if (_loadfactor() >= LOAD_FACTOR_THRESHOLD) {
             _rehash();
         }
@@ -103,7 +103,7 @@ struct HashTable {
         ++size;
     }
 
-    int& operator[](const int& key) {
+    INLINE int& operator[](const int& key) {
         if (_loadfactor() >= LOAD_FACTOR_THRESHOLD) {
             _rehash();
         }
@@ -123,7 +123,7 @@ struct HashTable {
         return nwEntry->second;
     }
 
-    void Clear() {
+    INLINE void Clear() {
         for (int i = 0; i < buckets; i++) {
             Entry* curr = table[i];
             for (; curr;) {
@@ -136,15 +136,15 @@ struct HashTable {
         size = 0;
     }
 
-    int _hashfunc(const int& key) const {
+    INLINE int _hashfunc(const int& key) const {
         return key % buckets;
     }
 
-    float _loadfactor() const {
+    INLINE float _loadfactor() const {
         return static_cast<float>(size) / buckets;
     }
 
-    void _rehash() {
+    INLINE void _rehash() {
         int oldBuckets = buckets;
         Entry** oldTable = table;
 
@@ -167,3 +167,25 @@ struct HashTable {
         delete[] oldTable;
     }
 };
+
+INLINE std::string GetFileStringBuffer(const char* filename) {
+    std::string buffer;
+    std::ifstream file;
+    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+    try {
+        file.open(filename);
+
+        std::stringstream fs;
+        fs << file.rdbuf();
+
+        file.close();
+
+        buffer = fs.str();
+    }
+    catch (std::ifstream::failure& e) {
+        std::cerr << "FILE NOT READ SUCCESSFULLY " << e.what() << '\n';
+    }
+
+    return buffer;
+}

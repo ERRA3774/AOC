@@ -111,7 +111,7 @@ INLINE int SafeReportsFromFile(const char* filename, int tolerance = 0) {
 
         buf[strcspn(buf, "\n")] = 0;
 
-        if (tolerance == 0 && IsSafeReport(buf) || (tolerance > 0 && IsSafeEnoughReport(buf))) {
+        if ((tolerance == 0 && IsSafeReport(buf)) || (tolerance > 0 && IsSafeEnoughReport(buf))) {
             ++sum;
         }
     }
@@ -129,9 +129,7 @@ INLINE int TestDay2Part1_2024() {
 
 INTERNAL void Day2Part1_2024() {
     ASSERT(TestDay2Part1_2024() == 2);
-
     int result = SafeReportsFromFile(DAY2_INPUT);
-
     LOG("DAY 2 PART 1 RESULT: %d", result);
 }
 
@@ -143,8 +141,6 @@ INLINE int TestDay2Part2_2024() {
 
 INTERNAL void Day2Part2_2024() {
     ASSERT(TestDay2Part2_2024());
-
     int result = SafeReportsFromFile(DAY2_INPUT, 1);
-
     LOG("DAY 2 PART 2 RESULT: %d", result);
 }

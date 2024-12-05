@@ -11,28 +11,6 @@
 INTERNAL const char* DAY4_INPUT = "res/2024/day4-input.txt";
 INTERNAL const char* DAY4_TEST = "res/2024/day4-test.txt";
 
-INLINE std::string GetFileStringBuffer(const char* filename) {
-    std::string buffer;
-    std::ifstream file;
-    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-    try {
-        file.open(filename);
-
-        std::stringstream fs;
-        fs << file.rdbuf();
-
-        file.close();
-
-        buffer = fs.str();
-    }
-    catch (std::ifstream::failure& e) {
-        std::cerr << "FILE NOT READ SUCCESSFULLY " << e.what() << '\n';
-    }
-
-    return buffer;
-}
-
 INLINE int WordCountXMAS(const char* filename) {
 
     std::string s = GetFileStringBuffer(filename);
@@ -126,7 +104,7 @@ INLINE int ShapeCountXMAS(const char* filename) {
 
             //LOG("%c.%c\n.%c.\n%c.%c", s[i - dimens - 2], s[i - dimens], s[i], s[i + dimens], s[i + dimens + 2 * 1]);
 
-            if (s[i - dimens - 2] == 'M' && s[i - dimens] == 'S' &&s[i + dimens] == 'M' && s[i + dimens + 2] == 'S') {
+            if (s[i - dimens - 2] == 'M' && s[i - dimens] == 'S' && s[i + dimens] == 'M' && s[i + dimens + 2] == 'S') {
                 ++sum;
             }
 
